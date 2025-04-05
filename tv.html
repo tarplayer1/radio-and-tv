@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>California Live TV - Kids & News</title>
+  <style>
+    body {
+      background: #0a1128;
+      color: #fff;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #1a237e;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,150,255,0.3);
+      border: 3px solid #00bcd4;
+    }
+    h1 {
+      color: #ffeb3b;
+      text-align: center;
+      text-shadow: 0 0 10px #ff5722;
+      margin-bottom: 25px;
+    }
+    select, button {
+      padding: 12px 18px;
+      margin: 10px;
+      border-radius: 25px;
+      border: none;
+      background: linear-gradient(145deg, #2196f3, #3d5afe);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    select {
+      background: linear-gradient(145deg, #673ab7, #9c27b0);
+      width: 80%;
+      min-width: 300px;
+      appearance: none;
+      padding-left: 20px;
+    }
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    video {
+      width: 100%;
+      max-width: 900px;
+      background: black;
+      border-radius: 10px;
+      margin: 20px auto;
+      display: block;
+      border: 3px solid #ff9800;
+    }
+    .status {
+      text-align: center;
+      margin: 15px;
+      font-size: 18px;
+      min-height: 27px;
+      padding: 10px;
+      border-radius: 20px;
+      background: rgba(0,0,0,0.3);
+    }
+    .loading {
+      color: #ffeb3b;
+      animation: pulse 1.5s infinite;
+    }
+    .error {
+      color: #ff5252;
+    }
+    .success {
+      color: #69f0ae;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+    .channel-group {
+      color: #ff9800;
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      select {
+        width: 90%;
+      }
+      button {
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌈 California Fun TV - Kids & News</h1>
+    
+    <select id="channelSelector">
+      <optgroup label="🍿 Kids Channels" class="channel-group">
+        <option value="https://nickelodeon-rakuten.amagi.tv/playlist.m3u8">Nickelodeon (Original)</option>
+        <option value="https://stitcher.pluto.tv/stitch/hls/channel/5f8ead8d14c6a80007c45d63/master.m3u8?deviceType=web&deviceMake=Chrome&deviceModel=Chrome&sid=6e360db0-724b-11e8-b6bc-cf3c92c19299&deviceId=5f8ead8d14c6a80007c45d63&deviceVersion=latest&appVersion=latest&deviceDNT=0&userId=&advertisingId=&deviceLat=&deviceLon=&app_name=&appName=web&buildVersion=&appStoreUrl=&architecture=&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false">Pluto TV Kids</option>
+        <option value="https://stitcher.pluto.tv/stitch/hls/channel/5f1214dc146d4d0007459a9e/master.m3u8?deviceType=web&deviceMake=Chrome&deviceModel=Chrome&sid=6e360db0-724b-11e8-b6bc-cf3c92c19299&deviceId=5f1214dc146d4d0007459a9e&deviceVersion=latest&appVersion=latest&deviceDNT=0&userId=&advertisingId=&deviceLat=&deviceLon=&app_name=&appName=web&buildVersion=&appStoreUrl=&architecture=&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false">Nick Jr. Pluto TV</option>
+        <option value="https://dai.google.com/linear/hls/event/Sid4xiXQTkCT1SLu6rjUSQ/master.m3u8">Kids Cartoons</option>
+      </optgroup>
+      
+      <optgroup label="📺 News Channels" class="channel-group">
+        <option value="https://cbsn-us.cbsnstream.cbsnews.com/out/v1/55a8648e8f134e82a470f83d562deeca/master.m3u8">CBS News</option>
+        <option value="https://ktla.live.streamguys1.com/ktla-web/news3.stream/playlist.m3u8">KTLA 5 News (LA)</option>
+      </optgroup>
+      
+      <optgroup label="🤣 Comedy & Fun" class="channel-group">
+        <option value="https://stitcher.pluto.tv/stitch/hls/channel/5f1a9f50a5714d00076f2345/master.m3u8?deviceType=web&deviceMake=Chrome&deviceModel=Chrome&sid=6e360db0-724b-11e8-b6bc-cf3c92c19299&deviceId=5f1a9f50a5714d00076f2345&deviceVersion=latest&appVersion=latest&deviceDNT=0&userId=&advertisingId=&deviceLat=&deviceLon=&app_name=&appName=web&buildVersion=&appStoreUrl=&architecture=&includeExtendedEvents=false&marketingRegion=US&serverSideAds=false">Pluto TV Comedy</option>
+        <option value="https://dai.google.com/linear/hls/event/9xK4XZQURXm6P5ZNT7Z8DA/master.m3u8">Funny Animal Videos</option>
+      </optgroup>
+      
+      <optgroup label="🌴 California Local" class="channel-group">
+        <option value="https://kbcw-lh.akamaihd.net/i/kbcw_1@320825/master.m3u8">KBCW (Bay Area)</option>
+        <option value="https://content.uplynk.com/channel/1831163f97674328ad9f4b4814ed39c5.m3u8">California Travel</option>
+      </optgroup>
+      
+      <optgroup label="🎶 Music & Dance" class="channel-group">
+        <option value="https://mtv.mtvnservices.com/lls/amlst:mtv/live/playlist.m3u8">MTV</option>
+        <option value="https://viacomcbsstrmops-lh.akamaihd.net/i/beach_1@178975/master.m3u8">Beach TV (SoCal)</option>
+      </optgroup>
+    </select>
+    
+    <div id="status" class="status">Select a channel and click Play!</div>
+    
+    <video id="tvPlayer" controls playsinline></video>
+    
+    <div class="controls">
+      <button onclick="playChannel()">▶️ Play</button>
+      <button onclick="stopChannel()">⏹ Stop</button>
+      <button onclick="toggleFullscreen()">🖥 Fullscreen</button>
+      <button onclick="refreshStream()">🔄 Refresh</button>
+      <button onclick="toggleMute()">🔇 Mute</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  
+  <script>
+    const player = document.getElementById("tvPlayer");
+    const selector = document.getElementById("channelSelector");
+    const statusDiv = document.getElementById("status");
+    
+    let hls = null;
+    let currentStream = "";
+    player.volume = 0.7;
+    
+    function showStatus(message, type = "normal") {
+      statusDiv.textContent = message;
+      statusDiv.className = "status " + type;
+    }
+    
+    function playChannel() {
+      const streamUrl = selector.value;
+      const channelName = selector.options[selector.selectedIndex].text;
+      
+      if (streamUrl === currentStream && !player.paused) {
+        showStatus("🎬 " + channelName + " is already playing!", "success");
+        return;
+      }
+      
+      currentStream = streamUrl;
+      showStatus("🔄 Loading " + channelName + "...", "loading");
+      
+      if (hls) hls.destroy();
+      
+      if (Hls.isSupported()) {
+        hls = new Hls({
+          maxBufferLength: 30,
+          maxMaxBufferLength: 60,
+          enableWorker: true
+        });
+        
+        hls.loadSource(streamUrl);
+        hls.attachMedia(player);
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          player.play()
+            .then(() => {
+              showStatus("🎉 Now playing: " + channelName, "success");
+            })
+            .catch(err => {
+              showStatus("😢 Oops! " + err.message, "error");
+            });
+        });
+        
+        hls.on(Hls.Events.ERROR, function(event, data) {
+          if (data.fatal) {
+            switch(data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                showStatus("📡 Buffering... please wait", "loading");
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                showStatus("🎥 Fixing video...", "loading");
+                hls.recoverMediaError();
+                break;
+              default:
+                showStatus("😵 Can't play this channel - try another!", "error");
+                break;
+            }
+          }
+        });
+      } 
+      else if (player.canPlayType('application/vnd.apple.mpegurl')) {
+        player.src = streamUrl;
+        player.addEventListener('loadedmetadata', function() {
+          player.play()
+            .then(() => {
+              showStatus("🎉 Now playing: " + channelName, "success");
+            })
+            .catch(err => {
+              showStatus("😢 Oops! " + err.message, "error");
+            });
+        });
+      } 
+      else {
+        showStatus("😞 Your browser doesn't support these streams", "error");
+      }
+    }
+    
+    function stopChannel() {
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+      player.pause();
+      player.src = "";
+      currentStream = "";
+      showStatus("⏹ Stopped - Choose another channel!", "normal");
+    }
+    
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        player.requestFullscreen().catch(err => {
+          showStatus("😅 Fullscreen error: " + err.message, "error");
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    
+    function refreshStream() {
+      if (currentStream) {
+        stopChannel();
+        setTimeout(playChannel, 500);
+      } else {
+        showStatus("🤔 No channel is playing", "normal");
+      }
+    }
+    
+    function toggleMute() {
+      player.muted = !player.muted;
+      const muteBtn = document.querySelector('button[onclick="toggleMute()"]');
+      muteBtn.textContent = player.muted ? "🔊 Unmute" : "🔇 Mute";
+    }
+    
+    // Auto-play first channel
+    window.addEventListener('load', function() {
+      setTimeout(playChannel, 1000);
+    });
+  </script>
+</body>
+</html>

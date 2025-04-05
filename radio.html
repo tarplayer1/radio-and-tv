@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Super Radio 30+</title>
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 { color: #00ffff; }
+    select, button { padding: 10px; margin: 10px; font-size: 16px; border-radius: 5px; }
+    audio { margin-top: 20px; width: 90%; }
+    .funny { color: #ffcc00; }
+  </style>
+</head>
+<body>
+  <h1>📻 Super Radio - 30+ Channels</h1>
+
+  <!-- Station Selector -->
+  <select id="stationSelector">
+    <optgroup label="🎧 Popular Radios">
+      <option value="https://stream.live.vc.bbcmedia.co.uk/bbc_radio_one">BBC Radio 1</option>
+      <option value="http://streaming.radio.co/sb17f7f4fa/listen">Dance UK</option>
+    </optgroup>
+
+    <optgroup label="🎙 President Radios">
+      <option value="https://npr-ice.streamguys1.com/live.mp3">President Talk Live (NPR)</option>
+    </optgroup>
+
+    <optgroup label="😂 Comedy / Cartoon">
+      <option value="https://streaming.radio.co/sb5f8a3b3a/listen">Cartoon Classics Radio</option>
+      <option value="https://stream.revma.ihrhls.com/zc4902">iHeart Comedy</option>
+      <option value="https://playerservices.streamtheworld.com/api/livestream-redirect/ACCU_COMEDY.mp3">AccuRadio Comedy</option>
+      <option value="http://listen.181fm.com/181-comedy_128k.mp3">Comedy Club 181.fm</option>
+      <option value="https://siriusxm-80s-on-8.streamguys1.com/laughusa">Laugh USA (SiriusXM)</option>
+    </optgroup>
+  </select>
+
+  <div id="channelName">🎶 Select a station to begin</div>
+
+  <!-- Audio Player -->
+  <audio id="radioPlayer" controls autoplay></audio>
+
+  <!-- Buttons -->
+  <br>
+  <button onclick="playRadio()">▶️ Play</button>
+  <button onclick="stopRadio()">⏹ Stop</button>
+  <button onclick="startRecording()">🔴 Record</button>
+  <button onclick="stopRecording()">💾 Save Recording</button>
+
+  <!-- Scripts -->
+  <script>
+    const player = document.getElementById("radioPlayer");
+    const selector = document.getElementById("stationSelector");
+    const channelName = document.getElementById("channelName");
+
+    let mediaRecorder;
+    let recordedChunks = [];
+
+    function playRadio() {
+      const stationName = selector.options[selector.selectedIndex].text;
+      player.src = selector.value;
+      channelName.textContent = "📻 Now Playing: " + stationName;
+      player.play();
+    }
+
+    function stopRadio() {
+      player.pause();
+      player.src = "";
+      channelName.textContent = "⏹️ Radio Stopped";
+    }
+
+    async function startRecording() {
+      const stream = await navigator.mediaDevices.getDisplayMedia({
+        audio: true,
+        video: false
+      });
+
+      mediaRecorder = new MediaRecorder(stream);
+      recordedChunks = [];
+
+      mediaRecorder.ondataavailable = e => recordedChunks.push(e.data);
+      mediaRecorder.start();
+
+      channelName.textContent += " 🔴 Recording...";
+    }
+
+    function stopRecording() {
+      if (mediaRecorder) {
+        mediaRecorder.stop();
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedChunks, { type: "audio/webm" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "radio_recording.webm";
+          a.click();
+        };
+        channelName.textContent = "💾 Recording Saved!";
+      }
+    }
+  </script>
+</body>
+</html>
